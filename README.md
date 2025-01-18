@@ -31,5 +31,5 @@ L'objectif principal est de maximiser les gains dans des scénarios simulant une
 
 1. Clonez ce dépôt :
    ```bash
-   git clone https://github.com/votreutilisateur/frozen-lake-reinforcement-learning.git
+   git clone https://github.com/AnassamzilUE/frozen-lake-reinforcement-learning.git
    cd frozen-lake-reinforcement-learning
