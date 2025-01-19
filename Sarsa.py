@@ -5,7 +5,7 @@ import pickle
 
 def run_sarsa(episodes, is_training=False, render=False):
     # Changement pour la carte 8x8
-    env = gym.make('FrozenLake-v1', map_name="8x8", is_slippery=True, render_mode='human' if render else None)
+    env = gym.make('FrozenLake-v1', map_name="8x8", is_slippery=True, render_mode='human' if render else None,max_episode_steps=200)
     
     if is_training:
         q = np.zeros((env.observation_space.n, env.action_space.n))
@@ -47,9 +47,9 @@ def run_sarsa(episodes, is_training=False, render=False):
             action = np.argmax(q[state, :])
             
         steps = 0
-        max_steps = 200  # Limite de pas pour éviter les épisodes trop longs
+        #max_steps = 200  # Limite de pas pour éviter les épisodes trop longs
             
-        while not (terminated or truncated) and steps < max_steps:
+        while not (terminated or truncated) :#and steps < max_steps:
             new_state, reward, terminated, truncated, _ = env.step(action)
             
             # Même stratégie pour la prochaine action
@@ -107,5 +107,5 @@ def run_sarsa(episodes, is_training=False, render=False):
 
 if __name__ == '__main__':
     # Augmentation du nombre d'épisodes pour l'environnement plus complexe
-    run_sarsa(20000, is_training=True)
+    run_sarsa(60000, is_training=True)
     #run_sarsa(20,is_training=False,render=True)
