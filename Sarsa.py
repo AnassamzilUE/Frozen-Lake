@@ -5,7 +5,7 @@ import pickle
 
 def run_sarsa(episodes, is_training=False, render=False):
     # Changement pour la carte 8x8
-    env = gym.make('FrozenLake-v1', map_name="8x8", is_slippery=True, render_mode='human' if render else None,max_episode_steps=200)
+    env = gym.make('FrozenLake-v1', map_name="8x8", is_slippery=False, render_mode='human' if render else None,max_episode_steps=200)
     
     if is_training:
         q = np.zeros((env.observation_space.n, env.action_space.n))
@@ -14,12 +14,12 @@ def run_sarsa(episodes, is_training=False, render=False):
             q = pickle.load(f)
 
     # Hyperparamètres ajustés pour 8x8
-    learning_rate_a = 0.05  # Réduit car plus d'états
-    discount_factor_g = 0.995  # Augmenté car chemin plus long
+    learning_rate_a = 0.3  # Réduit car plus d'états
+    discount_factor_g = 0.9  # Augmenté car chemin plus long
     epsilon = 1
     min_epsilon = 0.01
     # Ajusté pour une décroissance plus lente car environnement plus complexe
-    epsilon_decay_rate = 1/5000  
+    epsilon_decay_rate = 0.00005 
     
     rng = np.random.default_rng()
     rewards_per_episode = np.zeros(episodes)
@@ -76,7 +76,7 @@ def run_sarsa(episodes, is_training=False, render=False):
             steps += 1
         
         # Décroissance adaptative d'epsilon
-        if i < episodes * 0.7:  # Exploration plus longue (70% des épisodes)
+        if i < episodes * 0.5:  # Exploration plus longue (70% des épisodes)
             epsilon = max(min_epsilon, 1.0 - i * epsilon_decay_rate)
         else:
             epsilon = max(min_epsilon, epsilon * 0.9999)
@@ -107,5 +107,5 @@ def run_sarsa(episodes, is_training=False, render=False):
 
 if __name__ == '__main__':
     # Augmentation du nombre d'épisodes pour l'environnement plus complexe
-    run_sarsa(60000, is_training=True)
+    run_sarsa(50000, is_training=True)
     #run_sarsa(20,is_training=False,render=True)
